@@ -13,13 +13,10 @@ export class Storage {
     public id_perangkat: string;
 
     @Property()
-    public suhu: string;
+    public ppm_mq_135: string;
 
     @Property()
-    public kelembapan: string;
-
-    @Property()
-    public kualitas_udara: string;
+    public ppm_mq_7: string;
 
     @Property()
     public created_at: string;
