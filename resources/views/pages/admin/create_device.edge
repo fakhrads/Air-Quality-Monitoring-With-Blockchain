@@ -20,25 +20,19 @@
     @if(flashMessages.has('success'))
     <div class="alert alert-success shadow-xl mb-3">{{ flashMessages.get('success') }}</div>
     @endif
-  <form action="#" method="POST">
+  <form action="{{ route('post.tambah.perangkat')}}" method="POST">
     <div class="grid grid-cols-2 gap-4">
-      <div class="form-control w-full">
+      <div class="form-control w-full col-span-3">
         <label class="label">
           <span class="label-text">ID Perangkat</span>
         </label>
-        <input type="text" name="name" placeholder="Type here" class="input input-bordered w-full" required />
-      </div>
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Nama Perangkat?</span>
-        </label>
-        <input type="text" name="image" placeholder="Type here" class="input input-bordered w-full" required />
+        <input type="text" name="nama_perangkat" placeholder="Type here" class="input input-bordered w-full" required />
       </div>
       <div class="form-control w-full mb-6 col-span-3">
         <label class="label">
           <span class="label-text">Lokasi?</span>
         </label>
-        <textarea type="text" name="description" class="textarea textarea-bordered w-full h-24" required > </textarea>
+        <textarea type="text" name="lokasi_perangkat" class="textarea textarea-bordered w-full h-24" required > </textarea>
       </div>
     </div>
     <div class="text-end col-span-2">

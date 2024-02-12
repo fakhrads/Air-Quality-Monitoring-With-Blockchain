@@ -19,6 +19,7 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import IdentitasPerangkat from '../app/Models/IdentitasPerangkat'
 
 Route.get('/', async ({ view }) => {
   return view.render('pages/index')
@@ -28,15 +29,38 @@ Route.get('/login', async ({ view }) => {
   return view.render('pages/auth/login')
 })
 
-Route.post('/login', 'AuthController.login').as('login')
+Route.post('/login', async ({ auth, request }) => {
+  const email = request.input('email')
+  const password = request.input('password')
+
+  await auth.use('web').attempt(email, password)
+}).as('login')
+
+Route.post('/admin/device/create', async ({auth, response, request, session}) => {
+  const nama_perangkat = request.input('nama_perangkat')
+  const lokasi_perangkat = request.input('lokasi_perangkat')
+  
+  try {
+    await IdentitasPerangkat.create({
+      nama_perangkat: nama_perangkat,
+      lokasi_perangkat: lokasi_perangkat
+    })
+    session.flash('success','perangkat ditambahkan')
+    return response.redirect().back()
+  } catch(e) {
+    session.flash('error','terjadi error')
+    return response.redirect().back()
+  }
+}).as('post.tambah.perangkat')
 
 Route.get('/admin', async ({ view }) => {
-  return view.render('pages/admin/index')
+  const data_perangkat = await IdentitasPerangkat.all()
+  return view.render('pages/admin/index', { data: data_perangkat })
 }).as('admin.index')
 
-Route.get('/admin/device', async ({ view }) => {
-  return view.render('pages/admin/device')
-}).as('admin.device')
+// Route.get('/admin/device', async ({ view }) => {  
+//   return view.render('pages/admin/device')
+// }).as('admin.device')
 
 Route.get('/admin/device/create', async ({ view }) => {
   return view.render('pages/admin/create_device')
