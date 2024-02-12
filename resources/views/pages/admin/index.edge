@@ -32,8 +32,8 @@
             <tr>
               <td>{{ item.id }}</td>
               <td>{{ item.nama_perangkat }}</td>
-              <td>{{ item.lokasi }}</td>
-              <td></td>
+              <td>{{ item.lokasi_perangkat }}</td>
+              <td><a href="/admin/device/edit/{{ item.id }}" class="btn btn-primary btn-sm text-white">Edit</a></td>
             </tr>
           @end
         </tbody>

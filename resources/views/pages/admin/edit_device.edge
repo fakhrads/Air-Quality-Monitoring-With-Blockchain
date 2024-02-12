@@ -7,11 +7,11 @@
     <ul>
       <li><a>Admin</a></li>
       <li><a>Devices</a></li>
-      <li>Create</li>
+      <li>Edit</li>
     </ul>
   </div>
   <div class="text-start pb-4">
-    <h1 class="text-2xl font-bold text-black">Tambah Perangkat</h1>
+    <h1 class="text-2xl font-bold text-black">Edit Perangkat #{{ data.id }}</h1>
   </div>
   <div class="text-start pb-4">
     <a href="/admin" class="btn btn-sm btn-primary text-white">Kembali</a>
@@ -23,19 +23,19 @@
     @if(flashMessages.has('success'))
     <div class="alert alert-success shadow-xl mb-3">{{ flashMessages.get('success') }}</div>
     @endif
-  <form action="{{ route('post.tambah.perangkat')}}" method="POST">
+  <form action="{{ route('post.edit.perangkat', {id: data.id })}}" method="POST">
     <div class="grid grid-cols-2 gap-4">
       <div class="form-control w-full col-span-3">
         <label class="label">
           <span class="label-text">Nama Perangkat</span>
         </label>
-        <input type="text" name="nama_perangkat" placeholder="Type here" class="input input-bordered w-full" required />
+        <input type="text" name="nama_perangkat" value="{{ data.nama_perangkat }}" placeholder="Type here" class="input input-bordered w-full" required />
       </div>
       <div class="form-control w-full mb-6 col-span-3">
         <label class="label">
           <span class="label-text">Lokasi?</span>
         </label>
-        <textarea type="text" name="lokasi_perangkat" class="textarea textarea-bordered w-full h-24" required > </textarea>
+        <textarea type="text" name="lokasi_perangkat" class="textarea textarea-bordered w-full h-24" required > {{ data.lokasi_perangkat }} </textarea>
       </div>
     </div>
     <div class="text-end col-span-2">

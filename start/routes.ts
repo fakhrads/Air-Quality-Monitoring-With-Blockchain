@@ -39,7 +39,7 @@ Route.post('/login', async ({ auth, request }) => {
 Route.post('/admin/device/create', async ({auth, response, request, session}) => {
   const nama_perangkat = request.input('nama_perangkat')
   const lokasi_perangkat = request.input('lokasi_perangkat')
-  
+
   try {
     await IdentitasPerangkat.create({
       nama_perangkat: nama_perangkat,
@@ -53,12 +53,34 @@ Route.post('/admin/device/create', async ({auth, response, request, session}) =>
   }
 }).as('post.tambah.perangkat')
 
+Route.get('/admin/device/edit/:id', async ({ view, params }) => {
+  const data_perangkat = await IdentitasPerangkat.find(params.id)
+  return view.render('pages/admin/edit_device', { data: data_perangkat })
+}).as('admin.device.edit')
+
+Route.post('/admin/device/edit/:id', async ({ response, request, session, params }) => {
+  const nama_perangkat = request.input('nama_perangkat')
+  const lokasi_perangkat = request.input('lokasi_perangkat')
+
+  try {
+    const data_perangkat = await IdentitasPerangkat.findByOrFail('id', params.id)
+    data_perangkat.nama_perangkat = nama_perangkat
+    data_perangkat.lokasi_perangkat = lokasi_perangkat
+    await data_perangkat.save()
+    session.flash('success','perangkat diubah')
+    return response.redirect().back()
+  } catch(e) {
+    session.flash('error','terjadi error')
+    return response.redirect().back()
+  }
+}).as('post.edit.perangkat')
+
 Route.get('/admin', async ({ view }) => {
   const data_perangkat = await IdentitasPerangkat.all()
   return view.render('pages/admin/index', { data: data_perangkat })
 }).as('admin.index')
 
-// Route.get('/admin/device', async ({ view }) => {  
+// Route.get('/admin/device', async ({ view }) => {
 //   return view.render('pages/admin/device')
 // }).as('admin.device')
 
